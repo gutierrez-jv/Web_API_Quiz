@@ -1,4 +1,5 @@
-﻿using Microsoft.IdentityModel.Tokens;
+﻿using Microsoft.AspNetCore.Mvc;
+using Microsoft.IdentityModel.Tokens;
 using System.IdentityModel.Tokens.Jwt;
 using System.Security.Claims;
 using System.Text;
@@ -9,7 +10,6 @@ namespace Web_API_Quiz.Utils
     {
         private readonly IConfiguration _configuration;
 
-        // We have this code block now to access the Jwt :Key from the appsettings.json
         public JwtService(IConfiguration configuration)
         {
             _configuration = configuration;
@@ -21,15 +21,15 @@ namespace Web_API_Quiz.Utils
             var creds = new SigningCredentials(key, SecurityAlgorithms.HmacSha256);
             var claims = new[]
             {
-            new Claim(ClaimTypes.Name, username),
-            new Claim(ClaimTypes.Role, role),
-            new Claim("username", username),
-            new Claim("role", role)
-        };
+                new Claim(ClaimTypes.Name, username),
+                new Claim(ClaimTypes.Role, role),
+                new Claim("username", username),
+                new Claim("role", role)
+            };
 
             var token = new JwtSecurityToken(
                 claims: claims,
-                expires: DateTime.UtcNow.AddHours(1),
+                expires: DateTime.UtcNow.AddMinutes(5),
                 signingCredentials: creds
             );
 

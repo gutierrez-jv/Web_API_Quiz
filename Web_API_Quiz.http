@@ -1,6 +1,55 @@
-@Web_API_Quiz_HostAddress = http://localhost:5217
+@Web_API_Quiz_HostAddress = https://localhost:7249
+@apiKey = WebAPIKey-1
 
-GET {{Web_API_Quiz_HostAddress}}/weatherforecast/
-Accept: application/json
+@adminToken = eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJodHRwOi8vc2NoZW1hcy54bWxzb2FwLm9yZy93cy8yMDA1LzA1L2lkZW50aXR5L2NsYWltcy9uYW1lIjoiYWRtaW4iLCJodHRwOi8vc2NoZW1hcy5taWNyb3NvZnQuY29tL3dzLzIwMDgvMDYvaWRlbnRpdHkvY2xhaW1zL3JvbGUiOiJBZG1pbiIsInVzZXJuYW1lIjoiYWRtaW4iLCJyb2xlIjoiQWRtaW4iLCJleHAiOjE3NzY5NDY0Mzd9.SKuvA93bpTDK7Cw1zh3GkpH28-XaFTEOxUWMPeYuJtU
+@userToken = eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJodHRwOi8vc2NoZW1hcy54bWxzb2FwLm9yZy93cy8yMDA1LzA1L2lkZW50aXR5L2NsYWltcy9uYW1lIjoidXNlciIsImh0dHA6Ly9zY2hlbWFzLm1pY3Jvc29mdC5jb20vd3MvMjAwOC8wNi9pZGVudGl0eS9jbGFpbXMvcm9sZSI6IlVzZXIiLCJ1c2VybmFtZSI6InVzZXIiLCJyb2xlIjoiVXNlciIsImV4cCI6MTc3Njk0Nzk2NH0.oLkM91Cm4sdJPS7TrBodv7rVe9_kNJJIgTBW7kwMqx8
 
-###
+### LOGIN FOR ADMIN
+POST {{Web_API_Quiz_HostAddress}}/api/auth/login
+Content-Type: application/json
+X-API-KEY: {{apiKey}}
+{
+  "username": "admin",
+  "password": "admin123"
+}
+
+### LOGIN FOR USER
+POST {{Web_API_Quiz_HostAddress}}/api/auth/login
+Content-Type: application/json
+X-API-KEY: {{apiKey}}
+{
+  "username": "user",
+  "password": "user123"
+}
+
+### DELETE FOR ADMIN ONLY
+DELETE {{Web_API_Quiz_HostAddress}}/api/tasks/1
+Authorization: Bearer {{adminToken}}
+
+### ADMIN ONLY UPDATE
+PUT {{Web_API_Quiz_HostAddress}}/api/tasks/1
+Content-Type: application/json
+Authorization: Bearer {{adminToken}}
+{
+  "title": "Sample Task 1 set to FALSE",
+  "isCompleted": false
+}
+
+
+### BELOW CAN BOTH BE USER AND ADMIN
+### GET TASKS ADMIN AND USER BY ID
+GET {{Web_API_Quiz_HostAddress}}/api/tasks/1
+Authorization: Bearer {{userToken}}
+
+### GET TASKS
+GET {{Web_API_Quiz_HostAddress}}/api/tasks/
+Authorization: Bearer {{adminToken}}
+
+### POST TASKS
+POST {{Web_API_Quiz_HostAddress}}/api/tasks
+Content-Type: application/json
+Authorization: Bearer {{adminToken}}
+{
+  "title": "Sample Task 3",
+  "isCompleted": false
+}

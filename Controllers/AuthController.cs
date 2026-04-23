@@ -7,8 +7,8 @@ using static Web_API_Quiz.Utils.MockDatabase;
 
 namespace Web_API_Quiz.Controllers
 {
-    [Route("api/[controller]")]
     [ApiController]
+    [Route("api/[controller]")]
     public class AuthController : ControllerBase
     {
         private readonly JwtService _jwtService;
